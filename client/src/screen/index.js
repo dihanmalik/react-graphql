@@ -1,7 +1,7 @@
 import React, { Suspense } from "react";
 import { Redirect, Route, Switch } from "react-router";
 
-const Home = React.lazy(() => import("./home"));
+const Home = React.lazy(() => import("./Home"));
 
 export default () => (
   <Suspense fallback={<h1>loading...</h1>}>
