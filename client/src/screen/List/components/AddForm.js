@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 
+import AddIcon from "@material-ui/icons/Add";
 import Button from "@material-ui/core/Button";
 import { Mutation } from "react-apollo";
 import TextField from "@material-ui/core/TextField";
@@ -21,6 +22,9 @@ const Container = styled(View)({
   marginBottom: 30,
   "& > div": {
     margin: "0px 10px"
+  },
+  "& > button": {
+    marginLeft: 10
   }
 });
 
@@ -44,12 +48,14 @@ export default () => {
       <Mutation mutation={POST_MUTATION} variables={{ description, url }}>
         {postMutation => (
           <Button
+            disabled={!description || !url}
             onClick={postMutation}
             label={"Submit"}
             variant={"contained"}
             color={"primary"}
           >
-            Submit
+            <AddIcon />
+            Add new Data
           </Button>
         )}
       </Mutation>
