@@ -1,6 +1,8 @@
 import 'ag-grid-community/dist/styles/ag-grid.css'
 import 'ag-grid-community/dist/styles/ag-theme-material'
 
+import { Checkbox, FormControlLabel } from '@material-ui/core'
+
 import { AgGridReact } from 'ag-grid-react'
 import ErrorBoundary from '@molecule/ErrorBoundary'
 import { Query } from 'react-apollo'
@@ -13,7 +15,7 @@ import styled from '@styler'
 const Table = styled(View)(({ theme }) => ({
   height: '50vh',
   width: 800,
-  boxShadow: theme.shadows[1],
+  boxShadow: theme.shadows[2],
 }))
 
 const Title = styled(Text)({
@@ -22,43 +24,51 @@ const Title = styled(Text)({
 
 const FEED_QUERY = gql`
   {
-    feed {
+    visitors {
       id
-      description
-      url
+      dateTime
+      ip
+      device
     }
   }
 `
 
 export default () => {
+  const [orderable, setOrderable] = React.useState(false)
+  const toggleOrderable = () => setOrderable(!orderable)
   const columnDefs = [
       {
         headerName: 'ID',
         field: 'id',
         width: 200,
-        rowDrag: true,
+        rowDrag: orderable,
         filter: false,
       },
       {
-        headerName: 'Description',
-        field: 'description',
+        headerName: 'Date',
+        field: 'dateTime',
       },
       {
-        headerName: 'URL',
-        field: 'url',
+        headerName: 'IP',
+        field: 'ip',
+      },
+      {
+        headerName: 'Device',
+        field: 'device',
       },
     ],
     gridOptions = {
       defaultColDef: {
         sortable: true,
-        filter: true,
         width: 300,
+        filter: true,
       },
-      rowDragManaged: true,
+      supressMenuHide: true,
       columnDefs: columnDefs,
       animateRows: true,
       floatingFilter: true,
-      pagination: true,
+      rowDragManaged: orderable,
+      pagination: !orderable,
       paginationPageSize: 8,
     }
 
@@ -66,18 +76,29 @@ export default () => {
     <ErrorBoundary>
       <View flex={1} align={'center'}>
         <Title variant={'h3'}>List Page</Title>
+        <FormControlLabel
+          control={
+            <Checkbox
+              checked={Boolean(orderable)}
+              onChange={toggleOrderable}
+              value={orderable}
+              color="secondary"
+            />
+          }
+          label={'Toggle orderable feature'}
+        />
         <Query query={FEED_QUERY}>
           {({ loading, error, data }) => {
             if (loading) return <Text variant={'h3'}>Fetching List</Text>
             if (error) return <Text variant={'h3'}>{error}</Text>
 
-            const { feed } = data
+            const { visitors } = data
             return (
-              <Table className="ag-theme-material">
+              <Table className="ag-theme-material" key={orderable.toString()}>
                 <AgGridReact
                   columnDefs={columnDefs}
                   gridOptions={gridOptions}
-                  rowData={feed}
+                  rowData={visitors}
                 ></AgGridReact>
               </Table>
             )
