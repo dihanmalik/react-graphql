@@ -16,6 +16,7 @@
       {
         "alias": {
           "@atom": "./src/components/atom",
+          "@molecule": "./src/components/molecule",
           "@styler": "@emotion/styled",
           "@root": "./src"
         }

@@ -1,7 +1,7 @@
 import styled from "@styler";
 
 export default styled.button(({ theme, variant, shade = "main" }) => ({
-  height: 36,
+  height: 46,
   outline: 0,
   border: "none",
   cursor: "pointer",
@@ -13,5 +13,10 @@ export default styled.button(({ theme, variant, shade = "main" }) => ({
   },
   fontSize: 14,
   display: "flex",
-  flexDirection: "row"
+  flexDirection: "row",
+  padding: "0px 10px",
+  borderRadius: 3,
+  boxShadow: theme.shadows[3],
+  minWidth: 100,
+  justifyContent: "center"
 }));
