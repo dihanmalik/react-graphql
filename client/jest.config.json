@@ -1,0 +1,8 @@
+{
+  "verbose": true,
+  "testRegex": "((\\.|/*.)(spec))\\.js?$",
+  "moduleDirectories": ["node_modules", "src"],
+  "moduleNameMapper": {
+    "\\.(css|less|scss)$": "<rootDir>/__mocks__/styleMock.js"
+  }
+}

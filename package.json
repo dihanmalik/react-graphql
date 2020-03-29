@@ -16,5 +16,6 @@
   "bugs": {
     "url": "https://github.com/Dihan101/react-graphql/issues"
   },
-  "homepage": "https://github.com/Dihan101/react-graphql#readme"
+  "homepage": "https://github.com/Dihan101/react-graphql#readme",
+  "dependencies": {}
 }

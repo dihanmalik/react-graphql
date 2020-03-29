@@ -1,5 +1,5 @@
 import 'ag-grid-community/dist/styles/ag-grid.css'
-import 'ag-grid-community/dist/styles/ag-theme-material'
+import 'ag-grid-community/dist/styles/ag-theme-material.css'
 
 import { Checkbox, FormControlLabel } from '@material-ui/core'
 
@@ -11,6 +11,7 @@ import Text from '@atom/Text'
 import View from '@atom/View'
 import gql from 'graphql-tag'
 import styled from '@styler'
+import visitorSchema from '@schema/visitors'
 
 const Table = styled(View)(({ theme }) => ({
   height: '50vh',
@@ -22,18 +23,7 @@ const Title = styled(Text)({
   margin: '30px 0px',
 })
 
-const FEED_QUERY = gql`
-  {
-    visitors {
-      id
-      dateTime
-      ip
-      device
-    }
-  }
-`
-
-export default () => {
+const List = () => {
   const [orderable, setOrderable] = React.useState(false)
   const toggleOrderable = () => setOrderable(!orderable)
   const columnDefs = [
@@ -63,7 +53,6 @@ export default () => {
         width: 300,
         filter: true,
       },
-      supressMenuHide: true,
       columnDefs: columnDefs,
       animateRows: true,
       floatingFilter: true,
@@ -87,7 +76,7 @@ export default () => {
           }
           label={'Toggle orderable feature'}
         />
-        <Query query={FEED_QUERY}>
+        <Query query={visitorSchema.query.VISITOR_QUERY}>
           {({ loading, error, data }) => {
             if (loading) return <Text variant={'h3'}>Fetching List</Text>
             if (error) return <Text variant={'h3'}>{error}</Text>
@@ -108,3 +97,5 @@ export default () => {
     </ErrorBoundary>
   )
 }
+
+export default List
